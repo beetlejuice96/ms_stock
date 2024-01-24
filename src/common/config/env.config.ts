@@ -20,8 +20,6 @@ export default registerAs('config', () => {
       password: process.env.PASSWORD_TOKEN,
     },
     api: {
-      authServiceBaseUrl: process.env.AUTH_SERVICE_BASE_URL,
-      settingNestServiceBaseUrl: process.env.SETTING_NEST_SERVICE_BASE_URL,
       userServiceBaseUrl: process.env.USER_SERVICE_BASE_URL,
     },
   };
