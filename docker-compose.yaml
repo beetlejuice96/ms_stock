@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mysql-db:
+    image: mysql
+    restart: unless-stopped
+    container_name: mysql-local-db
+    hostname: mysql-local-db
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+    environment:
+      MYSQL_DATABASE: ${TYPEORM_DATABASE}
+      MYSQL_TCP_PORT: ${TYPEORM_PORT}
+      MYSQL_ROOT_PASSWORD: ${TYPEORM_PASSWORD}
+    ## Uncomment the following lines to persist the database
+    # volumes:
+    #   - ./local-db:/var/lib/mysql

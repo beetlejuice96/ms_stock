@@ -8,6 +8,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { CustomRequestPropertiesMiddleware } from './common/middlewares/custom-request-properties.middleware';
 import { LoggerModule } from './logger/logger.module';
 import { ContextStorageModule } from './context-storage/context-storage.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ContextStorageModule } from './context-storage/context-storage.module';
     AuthModule,
     LoggerModule,
     ContextStorageModule,
+    DatabaseModule,
   ],
   controllers: [],
   providers: [],

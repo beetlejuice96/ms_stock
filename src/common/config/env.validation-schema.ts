@@ -9,7 +9,5 @@ export const validationSchema = Joi.object({
   PORT: Joi.number().required(),
   EMAIL_TOKEN: Joi.string().required(),
   PASSWORD_TOKEN: Joi.string().required(),
-  AUTH_SERVICE_BASE_URL: Joi.string().required(),
-  SETTING_NEST_SERVICE_BASE_URL: Joi.string().required(),
   USER_SERVICE_BASE_URL: Joi.string().required(),
 });
