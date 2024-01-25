@@ -9,6 +9,7 @@ import { CustomRequestPropertiesMiddleware } from './common/middlewares/custom-r
 import { LoggerModule } from './logger/logger.module';
 import { ContextStorageModule } from './context-storage/context-storage.module';
 import { DatabaseModule } from './database/database.module';
+import { StockModule } from './stock/stock.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DatabaseModule } from './database/database.module';
     LoggerModule,
     ContextStorageModule,
     DatabaseModule,
+    StockModule,
   ],
   controllers: [],
   providers: [],
