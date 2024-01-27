@@ -8,7 +8,7 @@ import { ItemEntity } from '@/stock/entities/item.entity';
 import { ItemResponseDto } from '@/stock/dtos/item-response.dto';
 
 @Injectable()
-export class ProductMapper extends AutomapperProfile {
+export class ItemMapper extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
     super(mapper);
   }

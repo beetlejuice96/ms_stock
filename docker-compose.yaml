@@ -13,5 +13,5 @@ services:
       MYSQL_TCP_PORT: ${TYPEORM_PORT}
       MYSQL_ROOT_PASSWORD: ${TYPEORM_PASSWORD}
     ## Uncomment the following lines to persist the database
-    volumes:
-      - ./local-db:/var/lib/mysql
+#    volumes:
+#      - ./local-db:/var/lib/mysql

@@ -4,6 +4,7 @@ import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { CategoryEntity } from '../entities/category.entity';
 import { CategoryResponseDto } from '../dtos/category-response.dto';
 import { ProductEntity } from '../entities/product.entity';
+import { ProductResponseDto } from '@/stock/dtos/product-response.dto';
 
 @Injectable()
 export class CategoryMapper extends AutomapperProfile {
