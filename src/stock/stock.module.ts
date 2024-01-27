@@ -15,6 +15,7 @@ import { CategoryMapper } from '@/stock/mappers/category.mapper';
 import { TypeOrmUtil } from '@/common/utils/typeorm.util';
 import { ProductService } from '@/stock/services/product/product.service';
 import { ProductController } from './controllers/product/product.controller';
+import {ProductOperationService} from "@/stock/operation-services/product.operation-service";
 
 @Module({
   imports: [
@@ -35,9 +36,11 @@ import { ProductController } from './controllers/product/product.controller';
     CategoryMapper,
     //services
     CategoryService,
+    ProductService,
     //operationService
     CategoryOperationService,
-    ProductService,
+    ProductOperationService,
+
   ],
 })
 export class StockModule {}
