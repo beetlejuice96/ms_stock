@@ -13,6 +13,8 @@ import { ProductMapper } from '@/stock/mappers/product.mapper';
 import { ItemMapper } from '@/stock/mappers/item.mapper';
 import { CategoryMapper } from '@/stock/mappers/category.mapper';
 import { TypeOrmUtil } from '@/common/utils/typeorm.util';
+import { ProductService } from '@/stock/services/product/product.service';
+import { ProductController } from './controllers/product/product.controller';
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { TypeOrmUtil } from '@/common/utils/typeorm.util';
       CategoryEntity,
     ]),
   ],
-  controllers: [CategoryController],
+  controllers: [CategoryController, ProductController],
   providers: [
     // utils
     TypeOrmUtil,
@@ -35,6 +37,7 @@ import { TypeOrmUtil } from '@/common/utils/typeorm.util';
     CategoryService,
     //operationService
     CategoryOperationService,
+    ProductService,
   ],
 })
 export class StockModule {}

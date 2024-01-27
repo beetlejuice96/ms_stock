@@ -1,6 +1,3 @@
-import { LoggerService } from '@/logger/services/logger.service';
-import { CategoryBodyDto } from '@/stock/dtos/category-body.dto';
-import { CategoryResponseDto } from '@/stock/dtos/category-response.dto';
 import {
   Body,
   Controller,
@@ -14,27 +11,31 @@ import {
   Version,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CategoryOperationService } from '@/stock/operation-services/category.operation-service';
+import { ProductOperationService } from '@/stock/operation-services/product.operation-service';
+import { LoggerService } from '@/logger/services/logger.service';
+import { ProductBodyDto } from '@/stock/dtos/product-body.dto';
+import { ProductResponseDto } from '@/stock/dtos/product-response.dto';
 import { ParamsInterceptor } from '@/common/interceptors/params.interceptor';
 import { BaseIdParamDto } from '@/common/dtos/base-id-param.dto';
-import { BaseFindOnePropertyDto } from '@/common/dtos/base-find-one-property.dto';
-import { CategoryEntity } from '@/stock/entities/category.entity';
 import { Property } from '@/common/decorators/property.decorator';
+import { BaseFindOnePropertyDto } from '@/common/dtos/base-find-one-property.dto';
+import { ProductEntity } from '@/stock/entities/product.entity';
 import { ApiPaginatedResponse } from '@/common/decorators/api-paginated-response.decorator';
-import { CategoryQueryParamsDto } from '@/stock/dtos/category-query-params.dto';
 import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
-import { CategoryBodyUpdateDto } from '@/stock/dtos/category-body-update.dto';
+import { ProductQueryParamsDto } from '@/stock/dtos/product-query-params.dto';
+import { ProductBodyUpdateDto } from '@/stock/dtos/product-body-update.dto';
 
-@ApiTags('categories')
-@Controller('/stock-services/categories')
-export class CategoryController {
-  private className = CategoryController.name;
+@ApiTags('products')
+@Controller('/stock-services/products')
+export class ProductController {
+  private className = ProductController.name;
 
   constructor(
     private loggerService: LoggerService,
-    private categoryOperationService: CategoryOperationService,
+    private productOperationService: ProductOperationService,
   ) {}
 
+  s;
   // @ApiBearerAuth()
   @ApiOperation({ summary: 'create' })
   @Version('2')
@@ -42,14 +43,14 @@ export class CategoryController {
   @Post()
   async create(
     @Body()
-    payload: CategoryBodyDto,
-  ): Promise<CategoryResponseDto> {
+    payload: ProductBodyDto,
+  ): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'create',
       });
-      return await this.categoryOperationService.create(payload);
+      return await this.productOperationService.create(payload);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -68,14 +69,15 @@ export class CategoryController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param() params: BaseIdParamDto,
     @Property()
-    { entity }: BaseFindOnePropertyDto<CategoryEntity>,
-  ): Promise<CategoryResponseDto> {
+    { entity }: BaseFindOnePropertyDto<ProductEntity>,
+  ): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'findOne',
+        payload: { entity },
       });
-      return await this.categoryOperationService.findOne(entity);
+      return await this.productOperationService.findOne(entity);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -87,19 +89,19 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: 'find all' })
-  @ApiPaginatedResponse(CategoryResponseDto)
+  @ApiPaginatedResponse(ProductResponseDto)
   @Version('2')
   @Get()
   async findAll(
-    @Query() queryParams: CategoryQueryParamsDto,
-  ): Promise<PaginationResponseDto<CategoryResponseDto>> {
+    @Query() queryParams: ProductQueryParamsDto,
+  ): Promise<PaginationResponseDto<ProductResponseDto>> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'findAll',
         payload: queryParams,
       });
-      return await this.categoryOperationService.findAll(queryParams);
+      return await this.productOperationService.findAll(queryParams);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -117,14 +119,14 @@ export class CategoryController {
   @Patch(':id')
   async update(
     @Param() { id }: BaseIdParamDto,
-    @Body() payload: CategoryBodyUpdateDto,
-  ): Promise<CategoryResponseDto> {
+    @Body() payload: ProductBodyUpdateDto,
+  ): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'update',
       });
-      return await this.categoryOperationService.update(id, payload);
+      return await this.productOperationService.update(id, payload);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -140,13 +142,13 @@ export class CategoryController {
   @Version('2')
   // @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param() { id }: BaseIdParamDto): Promise<CategoryResponseDto> {
+  async remove(@Param() { id }: BaseIdParamDto): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'remove',
       });
-      return await this.categoryOperationService.remove(id);
+      return await this.productOperationService.remove(id);
     } catch (e) {
       this.loggerService.error({
         className: this.className,

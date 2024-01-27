@@ -13,6 +13,10 @@ export class ProductEntity extends BaseEntity {
   readonly name!: string;
 
   @AutoMap()
+  @Column({ length: 255 })
+  readonly description!: string;
+
+  @AutoMap()
   @ManyToOne(() => CategoryEntity)
   @JoinColumn({ name: 'category_id' })
   readonly categoryId!: CategoryEntity | number;

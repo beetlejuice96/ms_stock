@@ -1,41 +1,42 @@
 import { LoggerService } from '@/logger/services/logger.service';
-import { CategoryService } from '../services/category/category.service';
 import { Injectable } from '@nestjs/common';
-import { CategoryResponseDto } from '../dtos/category-response.dto';
-import { CategoryBodyDto } from '../dtos/category-body.dto';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
-import { CategoryEntity } from '../entities/category.entity';
-import { CategoryQueryParamsDto } from '@/stock/dtos/category-query-params.dto';
+import { TypeOrmUtil } from '@/common/utils/typeorm.util';
+
+//services
+import { ProductService } from '@/stock/services/product/product.service';
+
+//dtos
 import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
 import { PaginationOptionsDto } from '@/common/dtos/pagination-options.dto';
 import { CategoryFilterOptionsDto } from '@/stock/dtos/category-filter-options.dto';
-import { TypeOrmUtil } from '@/common/utils/typeorm.util';
-import { CategoryBodyUpdateDto } from '@/stock/dtos/category-body-update.dto';
+import { ProductBodyDto } from '@/stock/dtos/product-body.dto';
+import { ProductResponseDto } from '@/stock/dtos/product-response.dto';
+import { ProductEntity } from '@/stock/entities/product.entity';
+import { ProductQueryParamsDto } from '@/stock/dtos/product-query-params.dto';
+import { ProductBodyUpdateDto } from '@/stock/dtos/product-body-update.dto';
 
 @Injectable()
-export class CategoryOperationService {
-  private className = CategoryOperationService.name;
+export class ProductOperationService {
+  private className = ProductOperationService.name;
 
   constructor(
-    private categoryService: CategoryService,
+    private productService: ProductService,
     private loggerService: LoggerService,
     private typeOrmUtil: TypeOrmUtil,
     @InjectMapper() private mapper: Mapper,
   ) {}
 
-  async create(payload: CategoryBodyDto): Promise<CategoryResponseDto> {
+  async create(payload: ProductBodyDto): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'create',
+        payload,
       });
-      const createdEntity = await this.categoryService.create({ payload });
-      return this.mapper.map(
-        createdEntity,
-        CategoryEntity,
-        CategoryResponseDto,
-      );
+      const createdEntity = await this.productService.create({ payload });
+      return this.mapper.map(createdEntity, ProductEntity, ProductResponseDto);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -46,14 +47,14 @@ export class CategoryOperationService {
     }
   }
 
-  async findOne(entity: CategoryEntity): Promise<CategoryResponseDto> {
+  async findOne(entity: ProductEntity): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'findOne',
         payload: { entity },
       });
-      return this.mapper.map(entity, CategoryEntity, CategoryResponseDto);
+      return this.mapper.map(entity, ProductEntity, ProductResponseDto);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -65,8 +66,8 @@ export class CategoryOperationService {
   }
 
   async findAll(
-    queryParams: CategoryQueryParamsDto,
-  ): Promise<PaginationResponseDto<CategoryResponseDto>> {
+    queryParams: ProductQueryParamsDto,
+  ): Promise<PaginationResponseDto<ProductResponseDto>> {
     try {
       this.loggerService.log({
         className: this.className,
@@ -80,14 +81,14 @@ export class CategoryOperationService {
         this.typeOrmUtil.buidWhereObject<CategoryFilterOptionsDto>(
           filterOptions,
         );
-      const { data, meta } = await this.categoryService.findAll({
+      const { data, meta } = await this.productService.findAll({
         paginationOptions,
         where,
       });
       const newData = data.map((user) => {
-        return this.mapper.map(user, CategoryEntity, CategoryResponseDto);
+        return this.mapper.map(user, ProductEntity, ProductResponseDto);
       });
-      return new PaginationResponseDto<CategoryResponseDto>(newData, meta);
+      return new PaginationResponseDto<ProductResponseDto>(newData, meta);
     } catch (e) {
       this.loggerService.error({
         className: this.className,
@@ -100,21 +101,21 @@ export class CategoryOperationService {
 
   async update(
     id: number,
-    payload: CategoryBodyUpdateDto,
-  ): Promise<CategoryResponseDto> {
+    payload: ProductBodyUpdateDto,
+  ): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'update',
         payload: { id, payload },
       });
-      let response: CategoryResponseDto | undefined = undefined;
-      const updatedEntity = await this.categoryService.update({ id, payload });
+      let response: ProductResponseDto | undefined = undefined;
+      const updatedEntity = await this.productService.update({ id, payload });
       if (updatedEntity) {
         response = this.mapper.map(
           updatedEntity,
-          CategoryEntity,
-          CategoryResponseDto,
+          ProductEntity,
+          ProductResponseDto,
         );
       }
       return response;
@@ -128,20 +129,20 @@ export class CategoryOperationService {
     }
   }
 
-  async remove(id: number): Promise<CategoryResponseDto> {
+  async remove(id: number): Promise<ProductResponseDto> {
     try {
       this.loggerService.log({
         className: this.className,
         method: 'remove',
         payload: { id },
       });
-      let response: CategoryResponseDto | undefined = undefined;
-      const deletedEntity = await this.categoryService.remove({ id });
+      let response: ProductResponseDto | undefined = undefined;
+      const deletedEntity = await this.productService.remove({ id });
       if (deletedEntity) {
         response = this.mapper.map(
           deletedEntity,
-          CategoryEntity,
-          CategoryResponseDto,
+          ProductEntity,
+          ProductResponseDto,
         );
       }
       return response;
