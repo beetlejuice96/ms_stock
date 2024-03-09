@@ -48,6 +48,7 @@ export class CategoryController {
       this.loggerService.log({
         className: this.className,
         method: 'create',
+        payload,
       });
       return await this.categoryOperationService.create(payload);
     } catch (e) {
